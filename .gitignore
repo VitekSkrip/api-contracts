@@ -1,1 +1,3 @@
+auth-cli/*
 .idea
+main.go
