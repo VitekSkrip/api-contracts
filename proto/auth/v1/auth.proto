@@ -4,9 +4,27 @@ package auth;
 
 option go_package = "article.vault.auth.v1;authv1";
 
+import "google/api/annotations.proto";
+
 service AuthService {
-  rpc Register (RegisterRequest) returns (RegisterResponse);
+  rpc Register (RegisterRequest) returns (RegisterResponse) {
+    option (google.api.http) = {
+      post: "/v1/register"
+      body: "*"
+    };
+  };
   rpc Login (LoginRequest) returns (LoginResponse);
+  rpc GetAll(GetRequest) returns (GetResponse) {
+    option (google.api.http) = {
+      get: "/v1/list"
+    };
+  };
+}
+
+message GetRequest {}
+
+message GetResponse {
+  repeated int64 userId = 1;
 }
 
 message RegisterRequest {

@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package url_shortener;
+
+option go_package = "article.vault.url-shortener.v1;urlv1";
+
+import "google/api/annotations.proto";
+
+service UrlShortenerService {
+  rpc Save (SaveRequest) returns (SaveResponse) {
+    option (google.api.http) = {
+      post: "/v1/save"
+      body: "*"
+    };
+  };
+}
+
+message SaveRequest {
+  optional string alias = 1;
+}
+
+message SaveResponse {
+  string alias = 1;
+}
