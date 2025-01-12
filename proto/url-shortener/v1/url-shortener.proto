@@ -16,7 +16,8 @@ service UrlShortenerService {
 }
 
 message SaveRequest {
-  optional string alias = 1;
+  string url = 1;
+  optional string alias = 2;
 }
 
 message SaveResponse {

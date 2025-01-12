@@ -370,6 +370,9 @@
     "url_shortenerSaveRequest": {
       "type": "object",
       "properties": {
+        "url": {
+          "type": "string"
+        },
         "alias": {
           "type": "string"
         }

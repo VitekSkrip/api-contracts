@@ -1,4 +1,4 @@
-module contract/api-contracts
+module github.com/VitekSkrip/api-contracts
 
 go 1.23.1
 
