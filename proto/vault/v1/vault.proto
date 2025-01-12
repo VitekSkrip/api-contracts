@@ -1,0 +1,94 @@
+syntax = "proto3";
+
+package vault;
+
+option go_package = "article.vault.vault.v1;vaultv1";
+
+import "google/api/annotations.proto";
+
+service VaultService {
+  rpc CreateCollection (CreateCollectionRequest) returns (CreateCollectionResponse) {
+    option (google.api.http) = {
+      post: "/v1/collections"
+      body: "*"
+    };
+  };
+  rpc GetCollections (GetCollectionsRequest) returns (GetCollectionsResponse) {
+    option (google.api.http) = {
+      get: "/v1/collections"
+    };
+  }
+  rpc GetCollection (GetCollectionRequest) returns (GetCollectionResponse) {
+    option (google.api.http) = {
+      get: "/v1/collections/{id}"
+    };
+  }
+  rpc CreateSaves (CreateSavesRequest) returns (CreateSavesResponse) {
+    option (google.api.http) = {
+      post: "/v1/saves"
+      body: "*"
+    };
+  }
+  rpc GetSave (GetSaveRequest) returns (GetSaveResponse) {
+    option (google.api.http) = {
+      get: "/v1/saves/{id}"
+    };
+  }
+}
+
+message CreateCollectionRequest {
+  string name = 1;
+  optional string description = 2;
+}
+
+message CreateCollectionResponse {
+  uint64 id = 1;
+}
+
+message GetCollectionsRequest {}
+
+message GetCollectionsResponse {
+  repeated Collection collections = 1;
+}
+
+message Collection {
+  uint64 id = 1;
+  string name = 2;
+  string description = 3;
+  uint32 sort = 4;
+}
+
+message GetCollectionRequest {
+  uint64 id = 1;
+}
+
+message GetCollectionResponse {
+  string name = 1;
+  string description = 2;
+  repeated Save saves = 3;
+}
+
+message CreateSavesRequest {
+  string title = 1;
+  string url = 2;
+  uint64 collection = 3;
+}
+
+message CreateSavesResponse {
+  uint64 id = 1;
+}
+
+message Save {
+  uint64 id = 1;
+  string title = 2;
+  string uri = 3;
+  bool viewed = 4;
+}
+
+message GetSaveRequest {
+  uint64 id = 1;
+}
+
+message GetSaveResponse {
+  Save save = 1;
+}

@@ -10,6 +10,9 @@
     },
     {
       "name": "UrlShortenerService"
+    },
+    {
+      "name": "VaultService"
     }
   ],
   "consumes": [
@@ -48,6 +51,89 @@
         ],
         "tags": [
           "AuthService"
+        ]
+      }
+    },
+    "/v1/collections": {
+      "get": {
+        "operationId": "VaultService_GetCollections",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/vaultGetCollectionsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "tags": [
+          "VaultService"
+        ]
+      },
+      "post": {
+        "operationId": "VaultService_CreateCollection",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/vaultCreateCollectionResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/vaultCreateCollectionRequest"
+            }
+          }
+        ],
+        "tags": [
+          "VaultService"
+        ]
+      }
+    },
+    "/v1/collections/{id}": {
+      "get": {
+        "operationId": "VaultService_GetCollection",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/vaultGetCollectionResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "uint64"
+          }
+        ],
+        "tags": [
+          "VaultService"
         ]
       }
     },
@@ -134,6 +220,69 @@
         ],
         "tags": [
           "UrlShortenerService"
+        ]
+      }
+    },
+    "/v1/saves": {
+      "post": {
+        "operationId": "VaultService_CreateSaves",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/vaultCreateSavesResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/vaultCreateSavesRequest"
+            }
+          }
+        ],
+        "tags": [
+          "VaultService"
+        ]
+      }
+    },
+    "/v1/saves/{id}": {
+      "get": {
+        "operationId": "VaultService_GetSave",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/vaultGetSaveResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "uint64"
+          }
+        ],
+        "tags": [
+          "VaultService"
         ]
       }
     }
@@ -231,6 +380,125 @@
       "properties": {
         "alias": {
           "type": "string"
+        }
+      }
+    },
+    "vaultCollection": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "sort": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "vaultCreateCollectionRequest": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "vaultCreateCollectionResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uint64"
+        }
+      }
+    },
+    "vaultCreateSavesRequest": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "collection": {
+          "type": "string",
+          "format": "uint64"
+        }
+      }
+    },
+    "vaultCreateSavesResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uint64"
+        }
+      }
+    },
+    "vaultGetCollectionResponse": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "saves": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/vaultSave"
+          }
+        }
+      }
+    },
+    "vaultGetCollectionsResponse": {
+      "type": "object",
+      "properties": {
+        "collections": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/vaultCollection"
+          }
+        }
+      }
+    },
+    "vaultGetSaveResponse": {
+      "type": "object",
+      "properties": {
+        "save": {
+          "$ref": "#/definitions/vaultSave"
+        }
+      }
+    },
+    "vaultSave": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "title": {
+          "type": "string"
+        },
+        "uri": {
+          "type": "string"
+        },
+        "viewed": {
+          "type": "boolean"
         }
       }
     }
