@@ -59,9 +59,9 @@ func local_request_UrlShortenerService_Save_0(ctx context.Context, marshaler run
 	return msg, metadata, err
 }
 
-func request_UrlShortenerService_Redirect_0(ctx context.Context, marshaler runtime.Marshaler, client UrlShortenerServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_UrlShortenerService_GetURL_0(ctx context.Context, marshaler runtime.Marshaler, client UrlShortenerServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
-		protoReq RedirectRequest
+		protoReq GetURLRequest
 		metadata runtime.ServerMetadata
 		err      error
 	)
@@ -73,13 +73,13 @@ func request_UrlShortenerService_Redirect_0(ctx context.Context, marshaler runti
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "alias", err)
 	}
-	msg, err := client.Redirect(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	msg, err := client.GetURL(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
 
-func local_request_UrlShortenerService_Redirect_0(ctx context.Context, marshaler runtime.Marshaler, server UrlShortenerServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func local_request_UrlShortenerService_GetURL_0(ctx context.Context, marshaler runtime.Marshaler, server UrlShortenerServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
-		protoReq RedirectRequest
+		protoReq GetURLRequest
 		metadata runtime.ServerMetadata
 		err      error
 	)
@@ -91,7 +91,7 @@ func local_request_UrlShortenerService_Redirect_0(ctx context.Context, marshaler
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "alias", err)
 	}
-	msg, err := server.Redirect(ctx, &protoReq)
+	msg, err := server.GetURL(ctx, &protoReq)
 	return msg, metadata, err
 }
 
@@ -107,7 +107,7 @@ func RegisterUrlShortenerServiceHandlerServer(ctx context.Context, mux *runtime.
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/url_shortener.UrlShortenerService/Save", runtime.WithHTTPPathPattern("/v1/save"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/url_shortener.UrlShortenerService/Save", runtime.WithHTTPPathPattern("/v1/url/save"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -121,25 +121,25 @@ func RegisterUrlShortenerServiceHandlerServer(ctx context.Context, mux *runtime.
 		}
 		forward_UrlShortenerService_Save_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
-	mux.Handle(http.MethodGet, pattern_UrlShortenerService_Redirect_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_UrlShortenerService_GetURL_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/url_shortener.UrlShortenerService/Redirect", runtime.WithHTTPPathPattern("/v1/redirect/{alias}"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/url_shortener.UrlShortenerService/GetURL", runtime.WithHTTPPathPattern("/v1/url/{alias}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_UrlShortenerService_Redirect_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_UrlShortenerService_GetURL_0(annotatedContext, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		forward_UrlShortenerService_Redirect_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_UrlShortenerService_GetURL_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
 
 	return nil
@@ -185,7 +185,7 @@ func RegisterUrlShortenerServiceHandlerClient(ctx context.Context, mux *runtime.
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/url_shortener.UrlShortenerService/Save", runtime.WithHTTPPathPattern("/v1/save"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/url_shortener.UrlShortenerService/Save", runtime.WithHTTPPathPattern("/v1/url/save"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -198,32 +198,32 @@ func RegisterUrlShortenerServiceHandlerClient(ctx context.Context, mux *runtime.
 		}
 		forward_UrlShortenerService_Save_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
-	mux.Handle(http.MethodGet, pattern_UrlShortenerService_Redirect_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_UrlShortenerService_GetURL_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/url_shortener.UrlShortenerService/Redirect", runtime.WithHTTPPathPattern("/v1/redirect/{alias}"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/url_shortener.UrlShortenerService/GetURL", runtime.WithHTTPPathPattern("/v1/url/{alias}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_UrlShortenerService_Redirect_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_UrlShortenerService_GetURL_0(annotatedContext, inboundMarshaler, client, req, pathParams)
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		forward_UrlShortenerService_Redirect_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_UrlShortenerService_GetURL_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
 	return nil
 }
 
 var (
-	pattern_UrlShortenerService_Save_0     = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "save"}, ""))
-	pattern_UrlShortenerService_Redirect_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "redirect", "alias"}, ""))
+	pattern_UrlShortenerService_Save_0   = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v1", "url", "save"}, ""))
+	pattern_UrlShortenerService_GetURL_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "url", "alias"}, ""))
 )
 
 var (
-	forward_UrlShortenerService_Save_0     = runtime.ForwardResponseMessage
-	forward_UrlShortenerService_Redirect_0 = runtime.ForwardResponseMessage
+	forward_UrlShortenerService_Save_0   = runtime.ForwardResponseMessage
+	forward_UrlShortenerService_GetURL_0 = runtime.ForwardResponseMessage
 )

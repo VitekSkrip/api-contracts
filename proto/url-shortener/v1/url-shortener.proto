@@ -5,18 +5,17 @@ package url_shortener;
 option go_package = "article.vault.url-shortener.v1;urlv1";
 
 import "google/api/annotations.proto";
-import "google/api/empty.proto";
 
 service UrlShortenerService {
   rpc Save (SaveRequest) returns (SaveResponse) {
     option (google.api.http) = {
-      post: "/v1/save"
+      post: "/v1/url/save"
       body: "*"
     };
   };
-  rpc Redirect (RedirectRequest) returns (google.protobuf.Empty) {
+  rpc GetURL (GetURLRequest) returns (GetURLResponse) {
     option (google.api.http) = {
-      get: "/v1/redirect/{alias}"
+      get: "/v1/url/{alias}"
     };
   };
 }
@@ -30,6 +29,10 @@ message SaveResponse {
   string alias = 1;
 }
 
-message RedirectRequest {
+message GetURLRequest {
   string alias = 1;
+}
+
+message GetURLResponse {
+  string url = 1;
 }
