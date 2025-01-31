@@ -540,7 +540,7 @@
     "vaultGetNoteResponse": {
       "type": "object",
       "properties": {
-        "save": {
+        "note": {
           "$ref": "#/definitions/vaultNote"
         }
       }

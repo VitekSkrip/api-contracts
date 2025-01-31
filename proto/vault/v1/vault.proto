@@ -101,5 +101,5 @@ message GetNoteRequest {
 }
 
 message GetNoteResponse {
-  Note save = 1;
+  Note note = 1;
 }
