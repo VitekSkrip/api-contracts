@@ -23,15 +23,20 @@ service VaultService {
       get: "/v1/collections/{id}"
     };
   }
-  rpc CreateSaves (CreateSavesRequest) returns (CreateSavesResponse) {
+  rpc CreateNote (CreateNoteRequest) returns (CreateNoteResponse) {
     option (google.api.http) = {
-      post: "/v1/saves"
+      post: "/v1/notes"
       body: "*"
     };
   }
-  rpc GetSave (GetSaveRequest) returns (GetSaveResponse) {
+  rpc GetNotes (GetNotesRequest) returns (GetNotesResponse) {
     option (google.api.http) = {
-      get: "/v1/saves/{id}"
+      get: "/v1/notes"
+    };
+  }
+  rpc GetNote (GetNoteRequest) returns (GetNoteResponse) {
+    option (google.api.http) = {
+      get: "/v1/notes/{id}"
     };
   }
 }
@@ -65,30 +70,36 @@ message GetCollectionRequest {
 message GetCollectionResponse {
   string name = 1;
   string description = 2;
-  repeated Save saves = 3;
+  repeated Note notes = 3;
 }
 
-message CreateSavesRequest {
+message CreateNoteRequest {
   string title = 1;
   string url = 2;
   uint64 collection = 3;
 }
 
-message CreateSavesResponse {
+message CreateNoteResponse {
   uint64 id = 1;
 }
 
-message Save {
+message GetNotesRequest {}
+
+message GetNotesResponse {
+  repeated Note notes = 1;
+}
+
+message Note {
   uint64 id = 1;
   string title = 2;
   string uri = 3;
   bool viewed = 4;
 }
 
-message GetSaveRequest {
+message GetNoteRequest {
   uint64 id = 1;
 }
 
-message GetSaveResponse {
-  Save save = 1;
+message GetNoteResponse {
+  Note save = 1;
 }

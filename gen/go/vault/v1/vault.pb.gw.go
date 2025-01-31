@@ -113,33 +113,51 @@ func local_request_VaultService_GetCollection_0(ctx context.Context, marshaler r
 	return msg, metadata, err
 }
 
-func request_VaultService_CreateSaves_0(ctx context.Context, marshaler runtime.Marshaler, client VaultServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_VaultService_CreateNote_0(ctx context.Context, marshaler runtime.Marshaler, client VaultServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
-		protoReq CreateSavesRequest
+		protoReq CreateNoteRequest
 		metadata runtime.ServerMetadata
 	)
 	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-	msg, err := client.CreateSaves(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	msg, err := client.CreateNote(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
 
-func local_request_VaultService_CreateSaves_0(ctx context.Context, marshaler runtime.Marshaler, server VaultServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func local_request_VaultService_CreateNote_0(ctx context.Context, marshaler runtime.Marshaler, server VaultServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
-		protoReq CreateSavesRequest
+		protoReq CreateNoteRequest
 		metadata runtime.ServerMetadata
 	)
 	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-	msg, err := server.CreateSaves(ctx, &protoReq)
+	msg, err := server.CreateNote(ctx, &protoReq)
 	return msg, metadata, err
 }
 
-func request_VaultService_GetSave_0(ctx context.Context, marshaler runtime.Marshaler, client VaultServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_VaultService_GetNotes_0(ctx context.Context, marshaler runtime.Marshaler, client VaultServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
-		protoReq GetSaveRequest
+		protoReq GetNotesRequest
+		metadata runtime.ServerMetadata
+	)
+	msg, err := client.GetNotes(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	return msg, metadata, err
+}
+
+func local_request_VaultService_GetNotes_0(ctx context.Context, marshaler runtime.Marshaler, server VaultServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var (
+		protoReq GetNotesRequest
+		metadata runtime.ServerMetadata
+	)
+	msg, err := server.GetNotes(ctx, &protoReq)
+	return msg, metadata, err
+}
+
+func request_VaultService_GetNote_0(ctx context.Context, marshaler runtime.Marshaler, client VaultServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var (
+		protoReq GetNoteRequest
 		metadata runtime.ServerMetadata
 		err      error
 	)
@@ -151,13 +169,13 @@ func request_VaultService_GetSave_0(ctx context.Context, marshaler runtime.Marsh
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "id", err)
 	}
-	msg, err := client.GetSave(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	msg, err := client.GetNote(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
 
-func local_request_VaultService_GetSave_0(ctx context.Context, marshaler runtime.Marshaler, server VaultServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func local_request_VaultService_GetNote_0(ctx context.Context, marshaler runtime.Marshaler, server VaultServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
-		protoReq GetSaveRequest
+		protoReq GetNoteRequest
 		metadata runtime.ServerMetadata
 		err      error
 	)
@@ -169,7 +187,7 @@ func local_request_VaultService_GetSave_0(ctx context.Context, marshaler runtime
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "id", err)
 	}
-	msg, err := server.GetSave(ctx, &protoReq)
+	msg, err := server.GetNote(ctx, &protoReq)
 	return msg, metadata, err
 }
 
@@ -239,45 +257,65 @@ func RegisterVaultServiceHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		}
 		forward_VaultService_GetCollection_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
-	mux.Handle(http.MethodPost, pattern_VaultService_CreateSaves_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_VaultService_CreateNote_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/vault.VaultService/CreateSaves", runtime.WithHTTPPathPattern("/v1/saves"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/vault.VaultService/CreateNote", runtime.WithHTTPPathPattern("/v1/notes"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_VaultService_CreateSaves_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_VaultService_CreateNote_0(annotatedContext, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		forward_VaultService_CreateSaves_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_VaultService_CreateNote_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
-	mux.Handle(http.MethodGet, pattern_VaultService_GetSave_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_VaultService_GetNotes_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/vault.VaultService/GetSave", runtime.WithHTTPPathPattern("/v1/saves/{id}"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/vault.VaultService/GetNotes", runtime.WithHTTPPathPattern("/v1/notes"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_VaultService_GetSave_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_VaultService_GetNotes_0(annotatedContext, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		forward_VaultService_GetSave_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_VaultService_GetNotes_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+	})
+	mux.Handle(http.MethodGet, pattern_VaultService_GetNote_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		var stream runtime.ServerTransportStream
+		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/vault.VaultService/GetNote", runtime.WithHTTPPathPattern("/v1/notes/{id}"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := local_request_VaultService_GetNote_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		forward_VaultService_GetNote_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
 
 	return nil
@@ -370,39 +408,56 @@ func RegisterVaultServiceHandlerClient(ctx context.Context, mux *runtime.ServeMu
 		}
 		forward_VaultService_GetCollection_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
-	mux.Handle(http.MethodPost, pattern_VaultService_CreateSaves_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_VaultService_CreateNote_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/vault.VaultService/CreateSaves", runtime.WithHTTPPathPattern("/v1/saves"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/vault.VaultService/CreateNote", runtime.WithHTTPPathPattern("/v1/notes"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_VaultService_CreateSaves_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_VaultService_CreateNote_0(annotatedContext, inboundMarshaler, client, req, pathParams)
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		forward_VaultService_CreateSaves_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_VaultService_CreateNote_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
-	mux.Handle(http.MethodGet, pattern_VaultService_GetSave_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_VaultService_GetNotes_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/vault.VaultService/GetSave", runtime.WithHTTPPathPattern("/v1/saves/{id}"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/vault.VaultService/GetNotes", runtime.WithHTTPPathPattern("/v1/notes"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_VaultService_GetSave_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_VaultService_GetNotes_0(annotatedContext, inboundMarshaler, client, req, pathParams)
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		forward_VaultService_GetSave_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_VaultService_GetNotes_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+	})
+	mux.Handle(http.MethodGet, pattern_VaultService_GetNote_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/vault.VaultService/GetNote", runtime.WithHTTPPathPattern("/v1/notes/{id}"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := request_VaultService_GetNote_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		forward_VaultService_GetNote_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
 	return nil
 }
@@ -411,14 +466,16 @@ var (
 	pattern_VaultService_CreateCollection_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "collections"}, ""))
 	pattern_VaultService_GetCollections_0   = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "collections"}, ""))
 	pattern_VaultService_GetCollection_0    = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "collections", "id"}, ""))
-	pattern_VaultService_CreateSaves_0      = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "saves"}, ""))
-	pattern_VaultService_GetSave_0          = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "saves", "id"}, ""))
+	pattern_VaultService_CreateNote_0       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "notes"}, ""))
+	pattern_VaultService_GetNotes_0         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "notes"}, ""))
+	pattern_VaultService_GetNote_0          = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "notes", "id"}, ""))
 )
 
 var (
 	forward_VaultService_CreateCollection_0 = runtime.ForwardResponseMessage
 	forward_VaultService_GetCollections_0   = runtime.ForwardResponseMessage
 	forward_VaultService_GetCollection_0    = runtime.ForwardResponseMessage
-	forward_VaultService_CreateSaves_0      = runtime.ForwardResponseMessage
-	forward_VaultService_GetSave_0          = runtime.ForwardResponseMessage
+	forward_VaultService_CreateNote_0       = runtime.ForwardResponseMessage
+	forward_VaultService_GetNotes_0         = runtime.ForwardResponseMessage
+	forward_VaultService_GetNote_0          = runtime.ForwardResponseMessage
 )

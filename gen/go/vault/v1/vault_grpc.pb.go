@@ -22,8 +22,9 @@ const (
 	VaultService_CreateCollection_FullMethodName = "/vault.VaultService/CreateCollection"
 	VaultService_GetCollections_FullMethodName   = "/vault.VaultService/GetCollections"
 	VaultService_GetCollection_FullMethodName    = "/vault.VaultService/GetCollection"
-	VaultService_CreateSaves_FullMethodName      = "/vault.VaultService/CreateSaves"
-	VaultService_GetSave_FullMethodName          = "/vault.VaultService/GetSave"
+	VaultService_CreateNote_FullMethodName       = "/vault.VaultService/CreateNote"
+	VaultService_GetNotes_FullMethodName         = "/vault.VaultService/GetNotes"
+	VaultService_GetNote_FullMethodName          = "/vault.VaultService/GetNote"
 )
 
 // VaultServiceClient is the client API for VaultService service.
@@ -33,8 +34,9 @@ type VaultServiceClient interface {
 	CreateCollection(ctx context.Context, in *CreateCollectionRequest, opts ...grpc.CallOption) (*CreateCollectionResponse, error)
 	GetCollections(ctx context.Context, in *GetCollectionsRequest, opts ...grpc.CallOption) (*GetCollectionsResponse, error)
 	GetCollection(ctx context.Context, in *GetCollectionRequest, opts ...grpc.CallOption) (*GetCollectionResponse, error)
-	CreateSaves(ctx context.Context, in *CreateSavesRequest, opts ...grpc.CallOption) (*CreateSavesResponse, error)
-	GetSave(ctx context.Context, in *GetSaveRequest, opts ...grpc.CallOption) (*GetSaveResponse, error)
+	CreateNote(ctx context.Context, in *CreateNoteRequest, opts ...grpc.CallOption) (*CreateNoteResponse, error)
+	GetNotes(ctx context.Context, in *GetNotesRequest, opts ...grpc.CallOption) (*GetNotesResponse, error)
+	GetNote(ctx context.Context, in *GetNoteRequest, opts ...grpc.CallOption) (*GetNoteResponse, error)
 }
 
 type vaultServiceClient struct {
@@ -75,20 +77,30 @@ func (c *vaultServiceClient) GetCollection(ctx context.Context, in *GetCollectio
 	return out, nil
 }
 
-func (c *vaultServiceClient) CreateSaves(ctx context.Context, in *CreateSavesRequest, opts ...grpc.CallOption) (*CreateSavesResponse, error) {
+func (c *vaultServiceClient) CreateNote(ctx context.Context, in *CreateNoteRequest, opts ...grpc.CallOption) (*CreateNoteResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(CreateSavesResponse)
-	err := c.cc.Invoke(ctx, VaultService_CreateSaves_FullMethodName, in, out, cOpts...)
+	out := new(CreateNoteResponse)
+	err := c.cc.Invoke(ctx, VaultService_CreateNote_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *vaultServiceClient) GetSave(ctx context.Context, in *GetSaveRequest, opts ...grpc.CallOption) (*GetSaveResponse, error) {
+func (c *vaultServiceClient) GetNotes(ctx context.Context, in *GetNotesRequest, opts ...grpc.CallOption) (*GetNotesResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetSaveResponse)
-	err := c.cc.Invoke(ctx, VaultService_GetSave_FullMethodName, in, out, cOpts...)
+	out := new(GetNotesResponse)
+	err := c.cc.Invoke(ctx, VaultService_GetNotes_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *vaultServiceClient) GetNote(ctx context.Context, in *GetNoteRequest, opts ...grpc.CallOption) (*GetNoteResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetNoteResponse)
+	err := c.cc.Invoke(ctx, VaultService_GetNote_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -102,8 +114,9 @@ type VaultServiceServer interface {
 	CreateCollection(context.Context, *CreateCollectionRequest) (*CreateCollectionResponse, error)
 	GetCollections(context.Context, *GetCollectionsRequest) (*GetCollectionsResponse, error)
 	GetCollection(context.Context, *GetCollectionRequest) (*GetCollectionResponse, error)
-	CreateSaves(context.Context, *CreateSavesRequest) (*CreateSavesResponse, error)
-	GetSave(context.Context, *GetSaveRequest) (*GetSaveResponse, error)
+	CreateNote(context.Context, *CreateNoteRequest) (*CreateNoteResponse, error)
+	GetNotes(context.Context, *GetNotesRequest) (*GetNotesResponse, error)
+	GetNote(context.Context, *GetNoteRequest) (*GetNoteResponse, error)
 	mustEmbedUnimplementedVaultServiceServer()
 }
 
@@ -123,11 +136,14 @@ func (UnimplementedVaultServiceServer) GetCollections(context.Context, *GetColle
 func (UnimplementedVaultServiceServer) GetCollection(context.Context, *GetCollectionRequest) (*GetCollectionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetCollection not implemented")
 }
-func (UnimplementedVaultServiceServer) CreateSaves(context.Context, *CreateSavesRequest) (*CreateSavesResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateSaves not implemented")
+func (UnimplementedVaultServiceServer) CreateNote(context.Context, *CreateNoteRequest) (*CreateNoteResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateNote not implemented")
 }
-func (UnimplementedVaultServiceServer) GetSave(context.Context, *GetSaveRequest) (*GetSaveResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetSave not implemented")
+func (UnimplementedVaultServiceServer) GetNotes(context.Context, *GetNotesRequest) (*GetNotesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetNotes not implemented")
+}
+func (UnimplementedVaultServiceServer) GetNote(context.Context, *GetNoteRequest) (*GetNoteResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetNote not implemented")
 }
 func (UnimplementedVaultServiceServer) mustEmbedUnimplementedVaultServiceServer() {}
 func (UnimplementedVaultServiceServer) testEmbeddedByValue()                      {}
@@ -204,38 +220,56 @@ func _VaultService_GetCollection_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
-func _VaultService_CreateSaves_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateSavesRequest)
+func _VaultService_CreateNote_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateNoteRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(VaultServiceServer).CreateSaves(ctx, in)
+		return srv.(VaultServiceServer).CreateNote(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: VaultService_CreateSaves_FullMethodName,
+		FullMethod: VaultService_CreateNote_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(VaultServiceServer).CreateSaves(ctx, req.(*CreateSavesRequest))
+		return srv.(VaultServiceServer).CreateNote(ctx, req.(*CreateNoteRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _VaultService_GetSave_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetSaveRequest)
+func _VaultService_GetNotes_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetNotesRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(VaultServiceServer).GetSave(ctx, in)
+		return srv.(VaultServiceServer).GetNotes(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: VaultService_GetSave_FullMethodName,
+		FullMethod: VaultService_GetNotes_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(VaultServiceServer).GetSave(ctx, req.(*GetSaveRequest))
+		return srv.(VaultServiceServer).GetNotes(ctx, req.(*GetNotesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _VaultService_GetNote_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetNoteRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(VaultServiceServer).GetNote(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: VaultService_GetNote_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(VaultServiceServer).GetNote(ctx, req.(*GetNoteRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -260,12 +294,16 @@ var VaultService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _VaultService_GetCollection_Handler,
 		},
 		{
-			MethodName: "CreateSaves",
-			Handler:    _VaultService_CreateSaves_Handler,
+			MethodName: "CreateNote",
+			Handler:    _VaultService_CreateNote_Handler,
 		},
 		{
-			MethodName: "GetSave",
-			Handler:    _VaultService_GetSave_Handler,
+			MethodName: "GetNotes",
+			Handler:    _VaultService_GetNotes_Handler,
+		},
+		{
+			MethodName: "GetNote",
+			Handler:    _VaultService_GetNote_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
