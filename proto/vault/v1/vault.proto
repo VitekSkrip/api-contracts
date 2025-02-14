@@ -5,6 +5,7 @@ package vault;
 option go_package = "article.vault.vault.v1;vaultv1";
 
 import "google/api/annotations.proto";
+import "google/protobuf/wrappers.proto";
 
 service VaultService {
   rpc CreateCollection (CreateCollectionRequest) returns (CreateCollectionResponse) {
@@ -43,7 +44,7 @@ service VaultService {
 
 message CreateCollectionRequest {
   string name = 1;
-  optional string description = 2;
+  google.protobuf.StringValue description = 2;
 }
 
 message CreateCollectionResponse {
@@ -75,8 +76,8 @@ message GetCollectionResponse {
 
 message CreateNoteRequest {
   string title = 1;
-  string url = 2;
-  uint64 collection = 3;
+  google.protobuf.StringValue url = 2;
+  google.protobuf.UInt64Value collection = 3;
 }
 
 message CreateNoteResponse {
