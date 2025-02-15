@@ -75,7 +75,7 @@ message GetCollectionResponse {
 }
 
 message CreateNoteRequest {
-  string title = 1;
+  google.protobuf.StringValue title = 1;
   google.protobuf.StringValue url = 2;
   google.protobuf.UInt64Value collection = 3;
   google.protobuf.StringValue content = 4;
