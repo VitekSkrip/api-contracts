@@ -78,6 +78,7 @@ message CreateNoteRequest {
   string title = 1;
   google.protobuf.StringValue url = 2;
   google.protobuf.UInt64Value collection = 3;
+  google.protobuf.StringValue content = 4;
 }
 
 message CreateNoteResponse {
@@ -95,6 +96,7 @@ message Note {
   string title = 2;
   google.protobuf.StringValue uri = 3;
   bool viewed = 4;
+  google.protobuf.StringValue content = 5;
 }
 
 message GetNoteRequest {
