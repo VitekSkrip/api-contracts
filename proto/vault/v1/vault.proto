@@ -44,7 +44,7 @@ service VaultService {
 
 message CreateCollectionRequest {
   string name = 1;
-  optional google.protobuf.StringValue description = 2;
+  optional string description = 2;
 }
 
 message CreateCollectionResponse {
@@ -75,9 +75,9 @@ message GetCollectionResponse {
 }
 
 message CreateNoteRequest {
-  string title = 1;
-  optional google.protobuf.StringValue url = 2;
-  optional google.protobuf.UInt64Value collection = 3;
+  optional string title = 1;
+  optional string url = 2;
+  optional uint64 collection = 3;
 }
 
 message CreateNoteResponse {
